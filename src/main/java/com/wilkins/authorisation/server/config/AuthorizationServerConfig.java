@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -37,7 +38,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		        .withClient(serviceProperties.getClientId())
 		        .secret(serviceProperties.getClientSecret())
 		        .authorizedGrantTypes(serviceProperties.getGrantType(), "refresh_token")
-		        .scopes(serviceProperties.getScopeRead(), serviceProperties.getScopeWrite())
+		        .scopes("read", "write", "trust")
                 .accessTokenValiditySeconds(serviceProperties.getAccessTokenValidSeconds())
                 .refreshTokenValiditySeconds(serviceProperties.getRefreshTokenValidSeconds())
 		        .resourceIds(serviceProperties.getResourceId());
@@ -54,6 +55,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .exceptionTranslator(exceptionTranslator)
 		        .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService);
+	}
+
+	@Override
+	public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
+    	oauthServer.allowFormAuthenticationForClients().checkTokenAccess("isAuthenticated()");
 	}
 
 }
