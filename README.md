@@ -1,3 +1,5 @@
-# authorisation-server
+# authorisation-server #
 
-Standalone spring-boot auth server.  Provides an example auth server which will issue OAuth2 Tokens, using spring-security
+auth2 authorisation server, written in java, with spring-boot, and spring security
+
+Uses Mongodb to persist data.

@@ -16,8 +16,6 @@ public class ServiceProperties {
     private String clientId;
     private String clientSecret;
     private String grantType;
-    private String scopeRead;
-    private String scopeWrite;
     private String resourceId;
     private int accessTokenValidSeconds;
     private int refreshTokenValidSeconds;
